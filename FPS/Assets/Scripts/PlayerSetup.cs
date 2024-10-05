@@ -38,8 +38,6 @@ namespace MultiplayerFPS
 
         private void OnDisable()
         {
-            GameMaster.Instace.SetSceneCameraActive(true);
-
             GameMaster.Instace.UnRegisterPlayer(transform.name);
         }
 

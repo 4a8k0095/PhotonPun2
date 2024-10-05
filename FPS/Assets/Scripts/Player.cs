@@ -22,9 +22,10 @@ namespace MultiplayerFPS
             protected set { isDead = value; }
         }
 
+        private Collider col;
+
         [SerializeField] private List<Behaviour> disableOnDeath;
         [SerializeField] private List<GameObject> disableGameObjectsOnDeath;
-        private bool[] wasEnabled;
 
         [SerializeField] private GameObject deathVFXPrefab;
         [SerializeField] private GameObject respawnVFXPrefab;
@@ -37,25 +38,13 @@ namespace MultiplayerFPS
         [PunRPC]
         private void PunRPC_SetUp()
         {
-            wasEnabled = new bool[disableOnDeath.Count];
-            for (int i = 0; i < disableOnDeath.Count; i++)
-            {
-                wasEnabled[i] = disableOnDeath[i].enabled;
-            }
-
             SetDefaults();
-        }
-
-        private void Update()
-        {
-            //if (Input.GetKeyDown(KeyCode.S))
-            //{
-            //    TakeDamage(999);
-            //}
         }
 
         private void SetDefaults()
         {
+            Debug.Log($"{transform.name} °õ¦æ");
+
             GameObject _respawnVFX = Instantiate(respawnVFXPrefab, transform.position, Quaternion.identity);
             Destroy(_respawnVFX, 3f);
 
@@ -65,7 +54,7 @@ namespace MultiplayerFPS
 
             for (int i = 0; i < disableOnDeath.Count; i++)
             {
-                disableOnDeath[i].enabled = wasEnabled[i];
+                disableOnDeath[i].enabled = true;
             }
 
             for (int i = 0; i < disableGameObjectsOnDeath.Count; i++)
@@ -73,10 +62,10 @@ namespace MultiplayerFPS
                 disableGameObjectsOnDeath[i].SetActive(true);
             }
 
-            Collider _collider = GetComponent<Collider>();
-            if(_collider != null)
+            col = GetComponent<Collider>();
+            if(col != null)
             {
-                _collider.enabled = true;
+                col.enabled = true;
             }
 
             if (photonView.IsMine)
@@ -119,10 +108,9 @@ namespace MultiplayerFPS
                 disableGameObjectsOnDeath[i].SetActive(false);
             }
 
-            Collider _collider = GetComponent<Collider>();
-            if (_collider != null)
+            if (col != null)
             {
-                _collider.enabled = false;
+                col.enabled = false;
             }
 
             if (photonView.IsMine)
@@ -131,7 +119,7 @@ namespace MultiplayerFPS
 
                 GameMaster.Instace.SetSceneCameraActive(true);
             }
-            
+
             StartCoroutine(Respawn());
         }
 

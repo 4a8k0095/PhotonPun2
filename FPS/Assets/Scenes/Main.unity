@@ -609,12 +609,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 1378333780183499758, guid: 851d51d579a1a2944aeb1381e31c1621,
     type: 3}
-  primaryWeapon:
-    damage: 10
-    range: 100
-    fireRate: 0
-    weaponOBJ: {fileID: 7500363699214879541, guid: e83b0ef905d38a44db4e91470a1095d9,
-      type: 3}
 --- !u!4 &1583659092
 Transform:
   m_ObjectHideFlags: 0
@@ -799,7 +793,7 @@ GameObject:
   - component: {fileID: 2083836418}
   m_Layer: 0
   m_Name: SceneCamera
-  m_TagString: MainCamera
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

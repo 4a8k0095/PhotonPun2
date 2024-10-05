@@ -7,26 +7,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] private GameObject playerPrefab;
 
-    [SerializeField] private MultiplayerFPS.PlayerWeapon primaryWeapon;
-
     private void Start()
     {
-        // 判定 PhotonNetwork.InRoom 是否等於 true 的用意：
-        // 因為房主是使用 PhotonNetwork.CreateRoom 的人
-        // 所以只有房主在一開始 InRoom 就等於 true
-        // 但第二位玩家加入時，因為第二位玩家此時 InRoom != true
-        // 必須執行到 OnJoinedRoom 時 InRoom 才會等於 true
-        // 所以第一位玩家的本地端並無法產生第二位玩家的角色
-        // 而第二位玩家能夠產生第一位玩家的角色
-        // 因為第一位玩家的 InRoom = true
-        // 因此後續加入的玩家必須在 OnJoinedRoom 這個 Callback function
-        // 使用 PhotonNetwork.Instantiate
-        // 如此一來，前面的玩家才能在自己的本地端正確產生新玩家的角色
         if (PhotonNetwork.InRoom)
         {
-            Debug.Log("Start !!");
-            // 在自己的本地端創建物件
-            // 並同步其他 InRoom = true (在房間內)的玩家的本地端
             PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(0, 5f, 0), Quaternion.identity);
         }
     }
@@ -35,7 +19,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log("成功加入遊戲 !!");
-        PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(0, 5f, 0), Quaternion.identity, 0);
+        PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(0, 5f, 0), Quaternion.identity);
     }
 
     // 有玩家加入時 執行
